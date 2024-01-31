@@ -23,22 +23,89 @@
     - addTask -   allows the user to add a new task to the list.  It is called
                   by the click event handler for the add button on the page.
 */
+class ToDoList{
+    
+    constructor() { 
+       this.tasks = [
+            {description: 'Go to Dentist', isComplete: false},
+            {description: 'Do Gardening', isComplete: true},
+            {description: 'Renew Library Account', isComplete: false},
+        ]
+        this.addEventHandlers = this.addEventHandlers.bind(this);
+        this.addTask = this.addTask.bind(this);
+        this.loadTasks();
+    }
+        
+    
+    
+    
+    addTask() {
+    
+        } 
+        
+        
+        addEventHandlers(){
+    
+        } 
+        
+        loadTasks(){
+        // let tasksHtml = "";
+        // for (let i = 0; i < this.tasks.length; i++) {
+        //     tasksHtml += this.generateTaskHtml(this.tasks[i], i);
+        // }
+        let tasksHtml = this.tasks.reduce(
+            (html, task, index) => html += this.generateTaskHtml(task), ''
+            )
+        document.getElementById("taskList").innerHTML = tasksHtml;
+        this.addEventHandlers();
+        } 
 
+
+        generateTaskHtml(task, index) {
+            return `
+              <li class="list-group-item checkbox">
+                <div class="row">
+                  <div class="col-sm-1 pt-2 checkbox">
+                    <label><input name="toggleTaskStatus" type="checkbox" value="" 
+                    class="" ${(task.isComplete)?"checked":"" } 
+                    /></label>
+                  </div>
+                  <div class="col-sm-10 task-text ${(task.isComplete)?"complete":"" }">
+                    ${task.description}
+                  </div>
+                  <div class="col-sm-1 pt-2 delete-icon-area">
+                    <a name="deleteTask"class="" href="/">
+                        <i class="bi-trash delete-icon"></i>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            `;
+        }
+        
+        
+
+        toggleTaskStatus(){
+        
+        } 
+        
+        deleteTask(){
+    
+        }
+    
+    
+    
+}
 /*  Create a class called ToDoList
     PART 1 - Show the tasks
     -   Add stubs for all of the methods in the class:
-        -   addTask, addEventHandlers, loadTask, generateTaskHtml
-            toggleTaskStatus, deleteTask
+        -   
         -   You can add a console.log statement to each of these if you like
 
     -   Add a constructor
         -   Create an instance variable called tasks.
         -   Set it equal to the following object literal
-        -   [
-                {description: 'Go to Dentist', isComplete: false},
-                {description: 'Do Gardening', isComplete: true},
-                {description: 'Renew Library Account', isComplete: false},
-            ]
+        -  
         -   call bind on addTask and addEventHandlers
         -   call the method loadTasks
 
@@ -55,9 +122,7 @@
             the return value for each of the individual tasks combined
             You can do this by calling the reduce method on the array
             It manipulates each element of an array to produce ONE result
-                let tasksHtml = this.tasks.reduce(
-                    (html, task, index) => html += this.generateTaskHtml(task), ''
-                    )
+              
         -   Set contents of the taskList element on the page to the tasksHtml variable
         -   Call the method addEventHandlers.  Eventually this will add the event handlers
             to the checkbox and delete icon for each task on the page.
@@ -123,44 +188,9 @@
     Use and arrow or anonymous function
 */
 
-function generateTaskHtml(task) {
-    return `
-      <li class="list-group-item checkbox">
-        <div class="row">
-          <div class="col-sm-1 pt-2 checkbox">
-            <label><input name="toggleTaskStatus" type="checkbox" value="" class="" IS IT CHECKED></label>
-          </div>
-          <div class="col-sm-10 task-text SHOULD IT HAVE THE CHECKED CLASS">
-            TASK DESCRIPTION GOES HERE
-          </div>
-          <div class="col-sm-1 pt-2 delete-icon-area">
-            <a name="deleteTask" class="" href="/" ><i class="bi-trash delete-icon"></i></a>
-          </div>
-        </div>
-      </li>
-    `;
-}
+let toDo;
+window.onload = () => { toDo = new ToDoList();}
 
-/* this is the completed version of generateTaskHtml
-function generateTaskHtml(task) {
-    return `
-      <li class="list-group-item checkbox">
-        <div class="row">
-          <div class="col-sm-1 pt-2 checkbox">
-            <label><input name="toggleTaskStatus" type="checkbox" value="" 
-            class="" ${(task.isComplete)?"checked":"" } 
-            /></label>
-          </div>
-          <div class="col-sm-10 task-text ${(task.isComplete)?"complete":"" }">
-            ${task.description}
-          </div>
-          <div class="col-sm-1 pt-2 delete-icon-area">
-            <a name="deleteTask"class="" href="/">
-                <i class="bi-trash delete-icon"></i>
-            </a>
-          </div>
-        </div>
-      </li>
-    `;
-}
-*/
+
+// this is the completed version of generateTaskHtml
+ 
