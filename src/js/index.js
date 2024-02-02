@@ -33,6 +33,7 @@ class ToDoList{
         ]
         this.addEventHandlers = this.addEventHandlers.bind(this);
         this.addTask = this.addTask.bind(this);
+        // this.deleteTask = this.deleteTask.bind(this);
         this.loadTasks();
     }
         
@@ -43,19 +44,52 @@ class ToDoList{
     
         } 
         
-        
+        // PART 4 - Add task
+        // -   Add the function addTask.  It has no parameters
+        //     -   get the text from the textbox with an id of add task
+        //     -   if the text is blank 
+        //             add a style is-invalid to the textbox
+        //         otherwise
+        //             remove the style is-invalid from the textbox
+        //             create a new task object (use an object literal)
+        //                 the newTask should have the description that the user entered
+        //                 and an isComplete property of false
+        //             add the new task to the task list
+        //             call loadTasks
+        //             clear the text box
+        //         end if
+        // -   Add an onclick handler to the add button on the page
+        //     in the constructor.  It should call addTaskClick
+        // END OF PART 4 - TEST AND DEBUG YOUR CODE
+
         addEventHandlers(){
-    
+            const checkBoxes = document.getElementsByName("toggleTaskStatus");
+            // for (let i = 0; i < checkBoxes.length; i++) {
+            //     
+            // }
+            checkBoxes.forEach((checkBox, i) => {
+            checkBoxes[i].onchange = this.toggleTaskStatus.bind(this, i);
+            }
+
+            ) 
+            
+            
+
+            const deleteIcons = document.getElementsByName("deleteTask");
+            for (let i = 0; i < deleteIcons.length; i++) {
+                deleteIcons[i].onclick = this.deleteTask.bind(this, i);
         } 
-        
+    }
         loadTasks(){
         // let tasksHtml = "";
+
         // for (let i = 0; i < this.tasks.length; i++) {
         //     tasksHtml += this.generateTaskHtml(this.tasks[i], i);
         // }
         let tasksHtml = this.tasks.reduce(
             (html, task, index) => html += this.generateTaskHtml(task), ''
             )
+
         document.getElementById("taskList").innerHTML = tasksHtml;
         this.addEventHandlers();
         } 
@@ -70,7 +104,7 @@ class ToDoList{
                     class="" ${(task.isComplete)?"checked":"" } 
                     /></label>
                   </div>
-                  <div class="col-sm-10 task-text ${(task.isComplete)?"complete":"" }">
+                  <div class="col-sm-10 task-text ${(task.isComplete) ? "complete":"" }">
                     ${task.description}
                   </div>
                   <div class="col-sm-1 pt-2 delete-icon-area">
@@ -85,15 +119,24 @@ class ToDoList{
         
         
 
-        toggleTaskStatus(){
+        toggleTaskStatus(index){
+        this.tasks[index].isComplete = !this.tasks[index].isComplete;
+        this.loadTasks();
         
         } 
         
-        deleteTask(){
-    
+        deleteTask(index, event) {
+            event.preventDefault();
+            this.tasks.splice(index, 1);
+            this.loadTasks();
         }
     
-    
+        // PART 3 - Delete task
+        // -   Finish the deleteTask method.  It has 2 parameters, index and event
+        //     -   prevent the default action of the anchor tag using the event parameter
+        //     -   delete the task from the list
+        //     -   call loadTasks
+        // END OF PART 3 - TEST AND DEBUG YOUR CODE
     
 }
 /*  Create a class called ToDoList
@@ -145,30 +188,9 @@ class ToDoList{
             Use the click event and deleteTask.  Use bind in the same way.
     END OF PART 2 - TEST AND DEBUG YOUR CODE
 
-    PART 3 - Delete task
-    -   Finish the deleteTask method.  It has 2 parameters, index and event
-        -   prevent the default action of the anchor tag using the event parameter
-        -   delete the task from the list
-        -   call loadTasks
-    END OF PART 3 - TEST AND DEBUG YOUR CODE
+   
 
-    PART 4 - Add task
-    -   Add the function addTask.  It has no parameters
-        -   get the text from the textbox with an id of add task
-        -   if the text is blank 
-                add a style is-invalid to the textbox
-            otherwise
-                remove the style is-invalid from the textbox
-                create a new task object (use an object literal)
-                    the newTask should have the description that the user entered
-                    and an isComplete property of false
-                add the new task to the task list
-                call loadTasks
-                clear the text box
-            end if
-    -   Add an onclick handler to the add button on the page
-        in the constructor.  It should call addTaskClick
-    END OF PART 4 - TEST AND DEBUG YOUR CODE
+    
 
     PART 5 - Local Storage
     -   Load the task list from the 'TASKS' element from local storage
