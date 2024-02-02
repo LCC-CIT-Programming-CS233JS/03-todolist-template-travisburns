@@ -26,24 +26,54 @@
 class ToDoList{
     
     constructor() { 
-       this.tasks = [
-            {description: 'Go to Dentist', isComplete: false},
-            {description: 'Do Gardening', isComplete: true},
-            {description: 'Renew Library Account', isComplete: false},
-        ]
+        
+        try {
+        this.tasks = JSON.parse(localStorage["tasks"])
+        } 
+    
+        catch{
+            this.tasks = [
+                {description: 'Go to Dentist', isComplete: false},
+                {description: 'Do Gardening', isComplete: true},
+                {description: 'Renew Library Account', isComplete: false},
+            ]
+        }
+
+        // this.tasks = [
+        //     {description: 'Go to Dentist', isComplete: false},
+        //     {description: 'Do Gardening', isComplete: true},
+        //     {description: 'Renew Library Account', isComplete: false},
+        // ]
+        
+        
         this.addEventHandlers = this.addEventHandlers.bind(this);
-        this.addTask = this.addTask.bind(this);
-        // this.deleteTask = this.deleteTask.bind(this);
         this.loadTasks();
+
+        this.addTask = this.addTask.bind(this);
+        document.getElementById("addButton").onclick = this.addTask;
+
     }
         
     
     
     
     addTask() {
-    
+            const textBox = document.getElementById("addTask");
+            const value = textBox.value;
+            if (value == "") {
+                textBox.classList.add('is-invalid');
+            } else {
+                textBox.classList.remove('is-invalid');
+                const newTask = {
+                    description: value,
+                    isComplete: false
+                };
+            
+            this.tasks.push(newTask);
+            this.loadTasks();
+            textBox.value = "";
         } 
-        
+    }
         // PART 4 - Add task
         // -   Add the function addTask.  It has no parameters
         //     -   get the text from the textbox with an id of add task
@@ -86,6 +116,7 @@ class ToDoList{
         // for (let i = 0; i < this.tasks.length; i++) {
         //     tasksHtml += this.generateTaskHtml(this.tasks[i], i);
         // }
+        localStorage["tasks"] = JSON.stringify(this.tasks);
         let tasksHtml = this.tasks.reduce(
             (html, task, index) => html += this.generateTaskHtml(task), ''
             )
